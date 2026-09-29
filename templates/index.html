@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>FitBuddy — Your plan, your pace</title><link rel="stylesheet" href="/static/styles.css"></head>
+<body><header class="topbar"><a class="brand" href="/">FitBuddy<span>●</span></a><a class="nav-link" href="/view-all-users">Admin</a></header>
+<main class="hero-wrap"><section class="intro"><div class="eyebrow">YOUR PERSONAL FITNESS COMPANION</div><h1>Build a routine<br><em>that fits your life.</em></h1><p>Tell us what you’re working toward. FitBuddy will shape a practical workout and nutrition guide around your goals, schedule, and equipment.</p><div class="trust"><span>✦ Personal to you</span><span>✦ Flexible schedule</span><span>✦ Start at your level</span></div></section>
+<section class="form-card"><div class="card-heading"><div><div class="eyebrow">LET’S GET STARTED</div><h2>Your profile</h2></div><div class="step">01 <span>/ 01</span></div></div>
+{% if error %}<div class="alert" role="alert">{{ error }}</div>{% endif %}
+<form action="/generate-workout" method="post" class="profile-form">
+<div class="field-grid"><label>Your name<input name="name" autocomplete="name" maxlength="80" placeholder="e.g. Alex" value="{{ values.name if values else '' }}" required></label><label>Age<input name="age" type="number" min="16" max="100" placeholder="25" value="{{ values.age if values else '' }}" required></label></div>
+<label>What’s your main goal?<select name="goal" required><option value="">Choose a goal</option>{% for item in ['Weight loss','Muscle gain','General wellness','Improve endurance'] %}<option {% if values and values.goal == item %}selected{% endif %}>{{ item }}</option>{% endfor %}</select></label>
+<div class="field-grid"><label>Experience level<select name="level" required>{% for item in ['Beginner','Intermediate','Advanced'] %}<option {% if (values and values.level == item) or (not values and item == 'Beginner') %}selected{% endif %}>{{ item }}</option>{% endfor %}</select></label><label>Days per week<input name="days_per_week" type="number" min="1" max="7" value="{{ values.days_per_week if values else 3 }}" required></label></div>
+<label>Equipment you have<input name="equipment" maxlength="200" placeholder="Bodyweight, dumbbells, gym access…" value="{{ values.equipment if values else '' }}" required></label>
+<label>Anything to keep in mind? <span class="optional">Optional</span><textarea name="constraints" maxlength="500" rows="2" placeholder="Injuries, preferences, time limits…">{{ values.constraints if values else '' }}</textarea></label>
+<button class="button primary" type="submit">Create my plan <span>→</span></button><p class="privacy-note">Your details are stored locally to show your plan and improve it with feedback.</p></form></section></main>
+<footer>Move well. Feel good. Keep going. <span>FitBuddy · AI-assisted wellness</span></footer></body></html>
